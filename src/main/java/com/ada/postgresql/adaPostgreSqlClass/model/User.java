@@ -3,6 +3,7 @@ package com.ada.postgresql.adaPostgreSqlClass.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -20,7 +21,11 @@ public class User {
     @Column(name = "date_update")
     private LocalDateTime dateUpdate;
 
+    @OneToMany(mappedBy = "user")
+    private List<Purchase> purchases;
+
     public User() {
+        this.dateCreation = LocalDateTime.now();
     }
 
     public User(String username, String password, String email) {
@@ -67,4 +72,23 @@ public class User {
         return dateUpdate;
     }
 
+    public void updateUser(User user){
+        setUsername(user.getUsername());
+        setPassword(user.getPassword());
+        setEmail(user.getEmail());
+        this.dateUpdate = LocalDateTime.now();
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "idUser=" + idUser +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", dateCreation=" + dateCreation +
+                ", dateUpdate=" + dateUpdate +
+                ", purchases=" + purchases +
+                '}';
+    }
 }
